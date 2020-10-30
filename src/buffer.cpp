@@ -52,20 +52,13 @@ BufMgr::~BufMgr() {
 
 }
 
-void BufMgr::advanceClock()
-{
-	clockHand = (clockHand+1)%numBufs;
 }
 /*
 Allocates a free frame using the clock algorithm; 
 if necessary, writing a dirty page back to disk. 
 Throws BufferExceededException if all buffer frames are pinned. 
 
-This private method will get called by the readPage() and allocPage() 
-methods described below. Make sure that if the buffer frame allocated 
-has a valid page in it, you remove the appropriate entry from the hash 
-table.
-*/
+
 void BufMgr::allocBuf(FrameId & frame) 
 {
 
@@ -236,6 +229,10 @@ void BufMgr::disposePage(File* file, const PageId PageNo)
 	}
 }
 
+/**
+ * Prints out total number of valid frames
+ * Returns nothing
+ */
 void BufMgr::printSelf(void) 
 {
   BufDesc* tmpbuf;
