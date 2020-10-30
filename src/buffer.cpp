@@ -42,10 +42,18 @@ BufMgr::BufMgr(std::uint32_t bufs)
 BufMgr::~BufMgr() {
 }
 
-void BufMgr::advanceClock()
-{
+/**
+ * Advances clock to the next frame in buffer pool
+ */
+void BufMgr::advanceClock() {
+	clockHand = (clockhand + 1) % bufs;
 }
 
+/**
+ * Allocates a free fame using clock algorithm
+ * If necessary, writes a dirty page back to disk
+ * Throws BufferExceeded Exception if all buffer frames are pinned
+ */
 void BufMgr::allocBuf(FrameId & frame) 
 {
 }
@@ -72,6 +80,10 @@ void BufMgr::disposePage(File* file, const PageId PageNo)
 {
 }
 
+/**
+ * Prints out total number of valid frames
+ * Returns nothing
+ */
 void BufMgr::printSelf(void) 
 {
   BufDesc* tmpbuf;
