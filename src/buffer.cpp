@@ -129,6 +129,8 @@ void BufMgr::readPage(File* file, const PageId pageNo, Page*& page)
 		allocBuf(frameNo);
 		bufPool[frameNo] = file->readPage(pageNo);
 		hashTable->insert(file,pageNo,frameNo);
+		bufDescTable[frameNo].Set(file,pageNo);
+		page = &bufPool[frameNo];
 	}
 }
 
