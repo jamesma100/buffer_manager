@@ -2,6 +2,7 @@
  * This file implements the BufMgr class and all its functions
  * CS 564 Group 55
  * James Ma: 9079648441
+ * Keyi Wang: 9080306518
  *
  * @author See Contributors.txt for code contributors and overview of BadgerDB.
  *
