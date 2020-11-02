@@ -1,5 +1,9 @@
 /**
- * This file implements the BufMgr class and all its functions
+ * This file implements the BufMgr class and all its functions. In essence, the BufMgr uses an LRU
+ * clock replacement algorithm that takes in a page request and if it is in buffer pool BufMgr
+ * returns pointer that to page. If the page is not in the pool, it frees a frame and gets the page
+ * to the frame from the disk.
+ *
  * CS 564 Group 55
  * James Ma: 9079648441
  * Keyi Wang: 9080306518
