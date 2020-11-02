@@ -331,10 +331,12 @@ void test7()
 {
 	try
 	{
+		// Attempts to flush the same file several times
 		for (i = 1; i <= num; i++)
 			bufMgr->flushFile(file1ptr);
 		PRINT_ERROR("ERROR :: Should not have been able to flush the same file several times. Exception should have been thrown before execution reaches this point.");
 	}
+	// Catch BadBufferException because same file is flushed
 	catch(const BadBufferException& e)
 	{
 		std::cout << "Test 7 passed" << "\n";
