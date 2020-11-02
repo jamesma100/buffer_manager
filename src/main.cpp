@@ -12,6 +12,7 @@
 #include "exceptions/page_not_pinned_exception.h"
 #include "exceptions/page_pinned_exception.h"
 #include "exceptions/buffer_exceeded_exception.h"
+#include "exceptions/bad_buffer_exception.h"
 
 #define PRINT_ERROR(str) \
 { \
@@ -36,6 +37,7 @@ void test3();
 void test4();
 void test5();
 void test6();
+void test7();
 void testBufMgr();
 
 int main() 
@@ -148,6 +150,7 @@ void testBufMgr()
 	test4();
 	test5();
 	test6();
+	test7();
 
 	//Close files before deleting them
 	file1.~File();
@@ -320,4 +323,18 @@ void test6()
 		bufMgr->unPinPage(file1ptr, i, true);
 
 	bufMgr->flushFile(file1ptr);
+}
+
+void test7()
+{
+	try
+	{
+		for (i = 1; i <= num; i++)
+			bufMgr->flushFile(file1ptr);
+		PRINT_ERROR("ERROR :: Should not have been able to flush the same file several times. Exception should have been thrown before execution reaches this point.");
+	}
+	catch(const BadBufferException& e)
+	{
+		std::cout << "Test 7 passed" << "\n";
+	}
 }
