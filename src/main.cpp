@@ -38,6 +38,7 @@ void test4();
 void test5();
 void test6();
 void test7();
+void test8();
 void testBufMgr();
 
 int main() 
@@ -151,6 +152,7 @@ void testBufMgr()
 	test5();
 	test6();
 	test7();
+	test8();
 
 	//Close files before deleting them
 	file1.~File();
@@ -336,5 +338,19 @@ void test7()
 	catch(const BadBufferException& e)
 	{
 		std::cout << "Test 7 passed" << "\n";
+	}
+}
+
+void test8()
+{
+	try
+	{
+		bufMgr->readPage(file1ptr, num+1, page);
+		PRINT_ERROR("ERROR :: Shoould not be able to read invalid file. Exception should have been thrown before execution reaches this point.");
+	}
+	catch(const InvalidPageException& e)
+	{
+		std::cout << "Test 8 passed" << "\n";
+	
 	}
 }
