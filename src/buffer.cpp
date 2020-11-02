@@ -4,7 +4,7 @@
  * James Ma: 9079648441
  * Keyi Wang: 9080306518
  * Ayman Alzomaili: 9075944141
- * Brandon Erickson: 
+ * Brandon Erickson: 9079060738
  *
  * @author See Contributors.txt for code contributors and overview of BadgerDB.
  *
