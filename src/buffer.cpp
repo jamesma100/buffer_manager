@@ -71,37 +71,42 @@ void BufMgr::advanceClock() {
 
 
 void BufMgr::allocBuf(FrameId & frame){
-	int count=0;
+	int numPinnedPages=0; // number of pages pinned or currently being used
 	while(true){
 		advanceClock();
-		// If a frame with pinned pages
+		// If a frame has a pinned page
 		if(bufDescTable[clockHand].pinCnt>0){
-			count++;
+			numPinnedPages++;
 			// If all frames are pinned
-			if((unsigned)count==numBufs){
+			if((unsigned)numPinnedPages==numBufs){
 				throw BufferExceededException();
 			}
-		}else{
-			count=0;
+		}
+		// found unpinned page, restart count for checking buffer exceeded
+		else{
+			numPinnedPages=0;
 		}
 	
 		// Exists a frame ready to use 
+		// Valid bit not set
 		if(bufDescTable[clockHand].valid == false){
 			bufDescTable[clockHand].Clear();
 			frame = clockHand;
 			return;
 		}
-		// If has been referenced recently, changes value
+		// Valid bit is set
+		// If page is referenced recently, set refbit to false
 		else if(bufDescTable[clockHand].refbit == true){
 			bufDescTable[clockHand].refbit = false;
 			continue;
 		}
-		// If there isnt 0 things pinned
+		// If page is currently pinned
 		else if(bufDescTable[clockHand].pinCnt!=0){
 			continue;
 		}
 		// Found a location to allocate
 		else{
+			// If dirty bit is set, flush page to disk
 			if(bufDescTable[clockHand].dirty == true){
 				bufDescTable[clockHand].file -> writePage(bufPool[clockHand]);
 			}
