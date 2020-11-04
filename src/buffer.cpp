@@ -212,7 +212,7 @@ void BufMgr::disposePage(File* file, const PageId PageNo){
 			// frame is freed 
 			bufDescTable[frameNo].Clear();
 			// corresponding entry from hash table is also removed 
-			hashTable->remove(bufDescTable[frameNo].file,bufDescTable[frameNo].pageNo);
+			hashTable->remove(file,PageNo);
 			// delete from file 
 			file->deletePage(PageNo);
 	}catch(HashNotFoundException& e){

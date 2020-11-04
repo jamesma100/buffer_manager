@@ -39,6 +39,7 @@ void test5();
 void test6();
 void test7();
 void test8();
+void test9();
 void testBufMgr();
 
 int main() 
@@ -151,8 +152,10 @@ void testBufMgr()
 	test4();
 	test5();
 	test6();
+
 	test7();
 	test8();
+	test9();
 
 	//Close files before deleting them
 	file1.~File();
@@ -348,11 +351,35 @@ void test8()
 	try
 	{
 		bufMgr->readPage(file1ptr, num+1, page);
-		PRINT_ERROR("ERROR :: Shoould not be able to read invalid file. Exception should have been thrown before execution reaches this point.");
+		PRINT_ERROR("ERROR :: Should not be able to read invalid file. Exception should have been thrown before execution reaches this point.");
 	}
 	catch(const InvalidPageException& e)
 	{
 		std::cout << "Test 8 passed" << "\n";
 	
 	}
+}
+
+void test9()
+{
+	for (i=0;i<num;i++)
+	{
+		bufMgr->allocPage(file1ptr, pid[i], page);
+		rid[i] = page->insertRecord(tmpbuf);
+		bufMgr->unPinPage(file1ptr, pid[i], true);
+	}
+	for (i=0;i<num;i++)
+	{
+		bufMgr->disposePage(file1ptr,pid[i]);
+		try
+		{
+			file1ptr->readPage(pid[i]);
+			PRINT_ERROR("ERROR :: Page should have been disposed. InvalidPageException should have been thrown before execution reaches this point.");
+		}
+		catch(const InvalidPageException& e)
+		{
+		}
+	
+	}
+	std::cout<<"Test 9 passed" << "\n";
 }
